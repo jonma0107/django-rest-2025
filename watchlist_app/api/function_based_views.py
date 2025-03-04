@@ -1,4 +1,4 @@
-from watchlist_app.models import Movie
+from watchlist_app.api.models import Movie
 from watchlist_app.api.serializers import MovieSerializer
 
 from rest_framework import status

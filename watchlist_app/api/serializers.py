@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from watchlist_app.models import Movie
+from watchlist_app.api.models import Movie
 
 
  # Validator
