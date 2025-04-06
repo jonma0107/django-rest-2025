@@ -23,22 +23,31 @@ class StreamPlatformListView(APIView):
 
 class StreamPlatformDetailView(APIView):
     def get(self, request, pk):
-        platform = StreamPlatform.objects.get(pk=pk)
-        serializer=StreamPlatformSerializer(platform)
-        return Response(serializer.data)
+        try:
+            platform = StreamPlatform.objects.get(pk=pk)
+            serializer=StreamPlatformSerializer(platform)
+            return Response(serializer.data)
+        except StreamPlatform.DoesNotExist:
+            return Response({"message":"La plataforma de stream no existe"}, status=status.HTTP_404_NOT_FOUND)
 
     def put(self, request, pk):
-        platform = StreamPlatform.objects.get(pk=pk)
-        serializer = StreamPlatformSerializer(platform, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        else:
-            return Response(status=status.HTTP_400_BAD_REQUEST)
+        try:
+            platform = StreamPlatform.objects.get(pk=pk)
+            serializer = StreamPlatformSerializer(platform, data=request.data)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+            else:
+                return Response(status=status.HTTP_400_BAD_REQUEST)
+        except StreamPlatform.DoesNotExist:
+            return Response({"message":"La plataforma de stream no existe"}, status=status.HTTP_404_NOT_FOUND)
         
     def delete(self, request, pk):
-        platform = StreamPlatform.objects.get(pk=pk)
-        platform.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)    
+        try:
+            platform = StreamPlatform.objects.get(pk=pk)
+            platform.delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)    
+        except StreamPlatform.DoesNotExist:
+            return Response({"message":"La plataforma de stream no existe"}, status=status.HTTP_404_NOT_FOUND)
 
 
