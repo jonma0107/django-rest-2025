@@ -3,11 +3,13 @@ from rest_framework import generics
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.exceptions import ValidationError
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 
 from watchlist_app.models import Review, WatchList
 
 from watchlist_app.serializers.review_serializer import ReviewSerializer, ReviewCreateSerializer
+
+from watchlist_app.permissions import IsAdminOrReadOnly, IsReviewUserOrReadOnly
 
 
 """
@@ -29,7 +31,7 @@ vista basada en clases utilzando generics - vistas genéricas ya integradas que 
 """
 
 class ReviewListView(generics.ListAPIView):
-    serializer_class = ReviewSerializer
+    serializer_class = ReviewSerializer    
 
     def get_queryset(self):
         pk = self.kwargs['pk']
@@ -38,7 +40,7 @@ class ReviewListView(generics.ListAPIView):
 class ReviewCreateView(generics.CreateAPIView):
     queryset = Review.objects.all()
     serializer_class = ReviewCreateSerializer
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
 
     def perform_create(self, serializer):
         pk = self.kwargs['pk']
@@ -63,6 +65,7 @@ class ReviewCreateView(generics.CreateAPIView):
 class ReviewDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
+    permission_classes = [IsReviewUserOrReadOnly]
 
     def get_queryset(self):
         watchlist_pk = self.kwargs['watchlist_pk']
