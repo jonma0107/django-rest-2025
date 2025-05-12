@@ -6,3 +6,4 @@ from watchlist_app.views.reviews_generic_apiview import ReviewListView
 from watchlist_app.views.reviews_generic_apiview import ReviewDetailView
 from watchlist_app.views.reviews_generic_apiview import ReviewList
 from watchlist_app.views.reviews_generic_apiview import ReviewCreateView
+# from watchlist_app.views.reviews_generic_apiview import ReviewView

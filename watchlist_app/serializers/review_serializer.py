@@ -14,5 +14,5 @@ class ReviewCreateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Review        
-        exclude = ('watchlist', )
+        exclude = ('watchlist', 'review_user',)
 
