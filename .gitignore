@@ -178,6 +178,7 @@ api_env/
 /api_env
 
 .pyc
-api
-.api
-api/
+watchlist_app/api/
+# api
+# .api
+# api/
